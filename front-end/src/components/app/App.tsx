@@ -3,25 +3,27 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { RootState } from '@App/store/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import Button from 'react-bootstrap/Button';
+import { fetchEventTypes } from '@App/store/actions';
 
-import Title from '@App/components/Title';
-import Logo from '@App/components/Logo';
-import SubTitle from '@App/components/SubTitle';
+import { getEventTypes } from '@App/store/selectors';
 
-const LogoUrl = require('../../assets/images/logo-birdie.svg');
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import TopNavBar from '@App/components/TopNavbar';
 
 interface AppProps {
-
+  fetchEventTypes: Function;
 }
 
 interface AppState {
-
+  eventTypes: [];
 }
 
 const GlobalStyle = createGlobalStyle`
   body {
     height: 100vh;
-    background-color: #F9F9F9;
+    background-color: #FFFFFF;
     > div {
       height: 100%;
     }
@@ -29,12 +31,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const AppContainer = styled.div`
-  width: 100%;
+  width: 90%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  margin: 0 auto;
 `;
 
 class App extends React.Component<AppProps, AppState> {
@@ -46,18 +45,21 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <>
         <GlobalStyle />
+        <TopNavBar />
         <AppContainer>
-          <Logo src={LogoUrl} />
-          <Title>Welcome to the birdie test</Title>
-          <SubTitle>Best of luck!</SubTitle>
-        </AppContainer>
+          <Button onClick={() => this.props.fetchEventTypes()}>Hello</Button>
+        </ AppContainer>
       </>
     );
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: object) => {};
+const mapStateToProps = (state: RootState, ownProps: object) => ({
+  eventTypes: getEventTypes(state)
+});
 
-const mapDispatchToProps = (dispatch: Dispatch<RootState>) => {};
+const mapDispatchToProps = (dispatch: Dispatch<RootState>) => ({
+  fetchEventTypes: () => dispatch(fetchEventTypes())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
