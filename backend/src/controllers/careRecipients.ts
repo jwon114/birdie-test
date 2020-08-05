@@ -5,7 +5,8 @@ export const careRecipientsController = express.Router();
 
 careRecipientsController.get('/', async (_, res) => {
   const db: any = new Connector();
-  const rows = await db.query('SELECT DISTINCT(care_recipient_id) FROM events');
+  // const rows = await db.query('SELECT DISTINCT(care_recipient_id) FROM events');
+  const rows = await db.query('Select * from events limit 100')
   res.json(rows);
 });
 

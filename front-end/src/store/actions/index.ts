@@ -1,7 +1,11 @@
-interface EventType {
+interface FormType {
   type: string;
+  careRecipientId: string;
+  eventType: string;
 }
 
-export const fetchEventTypes = (): EventType => ({
-  type: 'FETCH'
+export const submitForm = (careRecipientId: string, eventType: string): FormType => ({
+  type: 'SUBMIT',
+  careRecipientId,
+  eventType
 });

@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import EventTypes from './eventTypes';
+import eventTypes from './eventTypes';
 
 export type RootState = Readonly<{
-  eventTypes: Array<{}>
+  careRecipients: Array<string>,
+  eventTypes: Array<string>
 }>;
 
 export const rootReducer = combineReducers<RootState>({
-  EventTypes
+  eventTypes
 });

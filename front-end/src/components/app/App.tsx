@@ -4,20 +4,22 @@ import { RootState } from '@App/store/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import Button from 'react-bootstrap/Button';
-import { fetchEventTypes } from '@App/store/actions';
+import { submitForm } from '@App/store/actions';
 
-import { getEventTypes } from '@App/store/selectors';
+import { getCareRecipients, getEventTypes } from '@App/store/selectors';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import TopNavBar from '@App/components/TopNavbar';
 
 interface AppProps {
-  fetchEventTypes: Function;
+  careRecipients: Array<string>;
+  eventTypes: Array<string>;
+  submitForm: Function;
 }
 
 interface AppState {
-  eventTypes: [];
+
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -42,12 +44,18 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   public render() {
+    console.log('this.props', this.props);
     return (
       <>
         <GlobalStyle />
-        <TopNavBar />
+        <TopNavBar
+          careRecipients={this.props.careRecipients}
+          eventTypes={this.props.eventTypes}
+          submitForm={(id: string, eventType: string) => this.props.submitForm(id, eventType)}
+        />
         <AppContainer>
-          <Button onClick={() => this.props.fetchEventTypes()}>Hello</Button>
+          <Button>Hello</Button>
+          {this.props.eventTypes}
         </ AppContainer>
       </>
     );
@@ -55,11 +63,12 @@ class App extends React.Component<AppProps, AppState> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: object) => ({
+  careRecipients: getCareRecipients(state),
   eventTypes: getEventTypes(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<RootState>) => ({
-  fetchEventTypes: () => dispatch(fetchEventTypes())
+  submitForm: (id: string, eventType: string) => dispatch(submitForm(id, eventType))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
